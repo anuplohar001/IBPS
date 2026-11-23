@@ -1,0 +1,19 @@
+{
+  "name": "Mental Math",
+  "short_name": "Mental Math",
+  "description": "30 random addition and subtraction questions for mental practice",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f5fb",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
