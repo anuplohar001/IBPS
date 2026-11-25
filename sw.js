@@ -1,4 +1,4 @@
-var CACHE = 'mental-math-v2';
+var CACHE = 'mental-math-v3';
 var ASSETS = [
   './',
   './index.html',

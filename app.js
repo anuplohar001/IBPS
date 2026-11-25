@@ -63,6 +63,7 @@
 
     if (mode === 'add') {
       need = Math.max(2, Math.min(d1, d2) - 1);
+      need = Math.min(need, Math.max(d1, d2));
     } else {
       need = Math.max(2, d2 - 1);
       need = Math.min(need, d1 === d2 ? d2 - 1 : d2);
@@ -72,6 +73,8 @@
       a = randDigits(d1);
       b = randDigits(d2);
       if (b % 10 === 0) continue;
+      // 1-digit numbers: skip 0/1 so it is never trivially easy
+      if ((d1 === 1 && a < 2) || (d2 === 1 && b < 2)) continue;
       if (mode === 'sub') {
         if (a <= b) continue;
         if (countBorrows(a, b) < need) continue;
