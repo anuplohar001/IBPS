@@ -45,6 +45,22 @@
   // easy second numbers ending in 0.
   function makeQuestion(mode, d1, d2) {
     var need, a, b, t;
+
+    // 100 - (2-digit number): both digits non-zero and the ones digit
+    // not 5, so it always needs a borrow and is not a "friendly" number.
+    if (mode === 'hundred') {
+      do {
+        b = rand(11, 89);
+      } while (b % 10 === 0 || b % 5 === 0);
+      return build('sub', 100, b);
+    }
+
+    // Multiplication: every digit is 2-9 (no 0s or 1s), so there is
+    // always real carrying work.
+    if (mode === 'mul') {
+      return build('mul', randHardNumber(d1), randHardNumber(d2));
+    }
+
     if (mode === 'add') {
       need = Math.max(2, Math.min(d1, d2) - 1);
     } else {
@@ -73,12 +89,19 @@
     return build(mode, a, b);
   }
 
+  function randHardNumber(d) {
+    var s = '';
+    for (var i = 0; i < d; i++) s += rand(2, 9);
+    return Number(s);
+  }
+
   function build(mode, a, b) {
+    var op = mode === 'add' ? '+' : mode === 'mul' ? '\u00d7' : '\u2212';
     return {
       a: a,
       b: b,
-      op: mode === 'add' ? '+' : '\u2212',
-      answer: mode === 'add' ? a + b : a - b
+      op: op,
+      answer: mode === 'add' ? a + b : mode === 'mul' ? a * b : a - b
     };
   }
 
@@ -125,6 +148,9 @@
   // In subtraction the 2nd number can't have more digits than the 1st
   function syncDigitOptions() {
     var isSub = modeEl.value === 'sub';
+    var isHundred = modeEl.value === 'hundred';
+    d1El.disabled = isHundred;
+    d2El.disabled = isHundred;
     var first = Number(d1El.value);
     Array.prototype.forEach.call(d2El.options, function (opt) {
       opt.disabled = isSub && Number(opt.value) > first;

@@ -67,6 +67,7 @@ select {
 }
 
 select option:disabled { color: #aaa; }
+select:disabled { opacity: 0.45; }
 
 .bar {
   display: flex;
